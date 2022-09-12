@@ -19,6 +19,7 @@ class PhaidraServiceProvider extends ServiceProvider
             //__DIR__.'/js' => resource_path('js/vendor'),
         ],'phaidra');
 
+        
         //after every update
         //run   php artisan vendor:publish [--provider="Yarm\Elasticsearch\ElasticsearchServiceProvider"][--tag="elasticsearch"]  --force
     }
