@@ -4,11 +4,11 @@ namespace Yarm\Phaidra;
 
 use Illuminate\Support\ServiceProvider;
 
-class phaidraServiceProvider extends ServiceProvider
+class PhaidraServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__.'/routes/web.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
         //$this->loadViewsFrom(__DIR__.'/views','phaidra');
         //$this->loadMigrationsFrom(__DIR__.'/database/migrations');
         $this->mergeConfigFrom(__DIR__ . '/config/phaidra.php','phaidra');

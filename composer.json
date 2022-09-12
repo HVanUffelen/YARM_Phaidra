@@ -5,7 +5,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Yarm\\Phaidra\\": "src/"
+            "Yarm\\Phaidra\\": "../YARM_Phaidra/src/"
         }
     },
     "authors": [
