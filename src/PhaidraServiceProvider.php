@@ -16,7 +16,7 @@ class PhaidraServiceProvider extends ServiceProvider
             //__DIR__ . '/config/bookshelf.php' => config_path('bookshelf.php'),
             __DIR__.'/views' => resource_path('views/vendor/phaidra'),
             // Assets
-            //__DIR__.'/js' => resource_path('js/vendor'),
+            __DIR__.'/js' => resource_path('js/vendor'),
         ],'phaidra');
 
         //after every update
