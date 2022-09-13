@@ -9,7 +9,7 @@ class PhaidraServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
-        //$this->loadViewsFrom(__DIR__.'/views','phaidra');
+        $this->loadViewsFrom(__DIR__.'/views','phaidra');
         //$this->loadMigrationsFrom(__DIR__.'/database/migrations');
         $this->mergeConfigFrom(__DIR__ . '/config/phaidra.php','phaidra');
         $this->publishes([
@@ -20,7 +20,7 @@ class PhaidraServiceProvider extends ServiceProvider
         ],'phaidra');
 
         //after every update
-        //run   php artisan vendor:publish [--provider="Yarm\Elasticsearch\ElasticsearchServiceProvider"][--tag="elasticsearch"]  --force
+        //run   php artisan vendor:publish [--provider="Yarm\phaidra\PhaidraServiceProvider"][--tag="phaidra"]  --force
     }
 
     public function register()
