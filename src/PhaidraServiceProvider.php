@@ -14,7 +14,7 @@ class PhaidraServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/config/phaidra.php','phaidra');
         $this->publishes([
             //__DIR__ . '/config/bookshelf.php' => config_path('bookshelf.php'),
-            //__DIR__.'/views' => resource_path('views/vendor/bookshelf'),
+            __DIR__.'/views' => resource_path('views/vendor/phaidra'),
             // Assets
             //__DIR__.'/js' => resource_path('js/vendor'),
         ],'phaidra');
