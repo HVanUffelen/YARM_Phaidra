@@ -154,12 +154,12 @@ class PhaidraController extends Controller
                         //Check if file exists in storage DLBTUploads
                         //Todo use directory unzipped!!
                         //Todo Check if TEI
-                        if (Storage::exists('DLBTUploads/' . $fileObject['name'])) {
+                        if (Storage::exists('YARMDBUploads/' . $fileObject['name'])) {
                             if (strpos($fileObject['name'], '.zip') === true) {
-                                $zippedFile = Storage::get('DLBTUploads/' . $fileObject['name']);
+                                $zippedFile = Storage::get('YARMDBUploads/' . $fileObject['name']);
                                 $zip = new ZipArchive;
                                 if ($zip->open($zippedFile) === TRUE) {
-                                    $zip->extractTo('DLBTUploads/unzipped/');
+                                    $zip->extractTo('YARMDBUploads/unzipped/');
                                     $zip->close();
                                 }
                             }
