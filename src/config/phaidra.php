@@ -2,6 +2,6 @@
 
 return [
 
-  'phaidra_present' => "True"
+  'phaidra_present' => true
 
 ];
