@@ -8,6 +8,7 @@ use App\Http\Controllers\ReadableParserController;
 use App\Models\File;
 use App\Models\Ref;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class PhaidraController extends Controller
@@ -217,8 +218,8 @@ class PhaidraController extends Controller
             return false;
 
         $phaidraBookUrl = $standardURL . "/methods/bdef:Book/view";
-
-        if (@get_headers($phaidraBookUrl)[0] === "HTTP/1.1 500 Internal Server Error") {
+        Log::info('This is some useful information.');
+        if (strpos(@get_headers($phaidraBookUrl)[0], "HTTP/1.1 500") !== false) {
             return false;
         }
 

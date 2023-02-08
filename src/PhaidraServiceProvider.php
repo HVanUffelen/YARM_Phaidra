@@ -20,7 +20,7 @@ class PhaidraServiceProvider extends ServiceProvider
         ],'phaidra');
 
         //after every update
-        //run   php artisan vendor:publish --provider="Yarm\Phaidra\PhaidraServiceProvider" --tag="phaidra" --force
+        //run
     }
 
     public function register()
