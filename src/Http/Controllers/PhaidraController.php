@@ -42,7 +42,7 @@ class PhaidraController extends Controller
         if ($data['identifier_type_id'] == 1) {
             $downloadLink = self::createDownloadLink($identifierType, $data['value']);
             if ($downloadLink) {
-                if (strpos($downloadLink, "/Download") == false) {
+                if (strpos($downloadLink, "/download") == false) {
                     $URLRecord['PhaidraBOOK'][$i]['Type'][] = $identifierType;
                     $URLRecord['PhaidraBOOK'][$i]['Value'][] = $data['value'];
                     $URLRecord['PhaidraBOOK'][$i]['Comment'][] = $data['comment'];
@@ -210,14 +210,13 @@ class PhaidraController extends Controller
         $id = self::getPIDIdOutOfURL($urlSrc);
         $apiUrl = config('yarm.phaidra_api');
         $result = json_decode(file_get_contents($apiUrl . 'o:' . $id . '/cmodel'), true);
-        if (is_array($result)){
+        if (is_array($result)) {
             if ($result['cmodel'] == 'Book')
                 $url = $urlSrc;
             else
                 $url = $apiUrl . 'o:' . $id . '/download';
             return $url;
-        }
-        else
+        } else
             return false;
     }
 
@@ -263,11 +262,10 @@ class PhaidraController extends Controller
      */
     public static function getAndAddExtensionAndFileName($downloadLink)
     {
-        $header = get_headers($downloadLink);
-        $fileName = substr($header[4], strpos($header[4], "=") + 1, strlen($header[4]));
-        $fileExt = strtoupper(substr($fileName, strpos($fileName, ".") + 1, strlen($fileName)));
-        $fileName = $fileExt;
-        return $fileName;
+        $id = self::getPIDIdOutOfURL($downloadLink);
+        $apiUrl = config('yarm.phaidra_api');
+        $result = json_decode(file_get_contents($apiUrl . 'o:' . $id . '/cmodel'),true);
+        return $result['cmodel'];
     }
 
     /**
