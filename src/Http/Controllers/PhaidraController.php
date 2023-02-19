@@ -7,7 +7,6 @@ use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\ReadableParserController;
 use App\Models\File;
 use App\Models\Ref;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class PhaidraController extends Controller
@@ -43,7 +42,7 @@ class PhaidraController extends Controller
         if ($data['identifier_type_id'] == 1) {
             $downloadLink = self::createDownloadLink($identifierType, $data['value']);
             if ($downloadLink) {
-                if (strpos($downloadLink, "Book/view") > 0) {
+                if (strpos($downloadLink, "/Download") == false) {
                     $URLRecord['PhaidraBOOK'][$i]['Type'][] = $identifierType;
                     $URLRecord['PhaidraBOOK'][$i]['Value'][] = $data['value'];
                     $URLRecord['PhaidraBOOK'][$i]['Comment'][] = $data['comment'];
@@ -193,15 +192,11 @@ class PhaidraController extends Controller
         $identifierToBeSelectedToEnableShowAsPhaidra = "PID";
 
         if ($type == $identifierToBeSelectedToEnableShowAsPhaidra) {
-            $downloadLink = self::tryConvertToBookPhaidraViewer($value);
+            $downloadLink = self::tryToConvertToDownloadLink($value);
             if ($downloadLink !== false)
                 return $downloadLink;
             else {
-                $downloadLink = self::tryToConvertURLToPhaidraDownloadLink($value);
-                if ($downloadLink !== false)
-                    return $downloadLink;
-                else
-                    return false;
+                return false;
             }
         }
     }
@@ -210,33 +205,20 @@ class PhaidraController extends Controller
      * @param $urlSrc
      * @return bool|string
      */
-    private static function tryConvertToBookPhaidraViewer($urlSrc)
+    public static function tryToConvertToDownloadLink($urlSrc)
     {
-        $standardURL = self::CreateStandardPhaidraUrl($urlSrc);
-        if ($standardURL === false)
-            return false;
-
-        $phaidraBookUrl = $standardURL . "/methods/bdef:Book/view";
-
-        if (strpos(@get_headers($phaidraBookUrl)[0], "HTTP/1.1 500") !== false) {
-            return false;
+        $id = self::getPIDIdOutOfURL($urlSrc);
+        $apiUrl = config('yarm.phaidra_api');
+        $result = json_decode(file_get_contents($apiUrl . 'o:' . $id . '/cmodel'), true);
+        if (is_array($result)){
+            if ($result['cmodel'] == 'Book')
+                $url = $urlSrc;
+            else
+                $url = $apiUrl . 'o:' . $id . '/download';
+            return $url;
         }
-
-        return $phaidraBookUrl;
-    }
-
-    /**
-     * @param $urlSrc
-     * @return bool|string
-     */
-    public static function tryToConvertURLToPhaidraDownloadLink($urlSrc)
-    {
-        $standardURL = self::CreateStandardPhaidraUrl($urlSrc);
-        if ($standardURL === false)
+        else
             return false;
-
-        return $standardURL . "/methods/bdef:Content/download";
-        //https://fedora.phaidra-sandbox.univie.ac.at/fedora/objects/o:191160/methods/bdef:Content/download
     }
 
     /**
